@@ -1,8 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import { useForm,   } from "react-hook-form"
+import useAuth from '../Hooks/useAuth';
+import toast from 'react-hot-toast';
+
 
 const Signup = () => {
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm() ; 
+
+  const {createUser} = useAuth()
+
+  const onSubmit = (data) =>{
+       
+      createUser(data.email , data.password)
+      .then(res => {
+        const user = res.user ; 
+         if(user){
+          toast.success('signin successfuly')
+          navigate('/')
+         }
+      })
+  }
+
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 p-4">
       {/* Main Container with Glass Effect */}
@@ -35,15 +63,18 @@ const Signup = () => {
           <div className="max-w-sm w-full mx-auto">
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Create Your Account</h3>
 
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Name Input */}
               <div className="space-y-1">
                 <label className="text-xs md:text-sm font-medium text-gray-700">Name</label>
                 <input
                   type="text"
+                  {...register('name' , {
+                    required : true , 
+                  })}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all bg-white/50 backdrop-blur-sm"
                   placeholder="Enter your full name"
-                  required
+              
                 />
               </div>
 
@@ -52,9 +83,10 @@ const Signup = () => {
                 <label className="text-xs md:text-sm font-medium text-gray-700">Email</label>
                 <input
                   type="email"
+                  {...register('email' , {required : true })}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all bg-white/50 backdrop-blur-sm"
                   placeholder="Enter your email"
-                  required
+                  
                 />
               </div>
 
@@ -63,10 +95,38 @@ const Signup = () => {
                 <label className="text-xs md:text-sm font-medium text-gray-700">Password</label>
                 <input
                   type="password"
+                  {...register('password' , {
+                    required : true , 
+                    minLength: 6,
+                    maxLength: 20,
+                    pattern:
+                      /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+                  })}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all bg-white/50 backdrop-blur-sm"
                   placeholder="Create a password"
                   required
                 />
+                {errors.password?.type === "required" && (
+                    <span className="text-red-600 text-xs">
+                      password is required
+                    </span>
+                  )}
+                  {errors.password?.type === "length" && (
+                    <span className="text-red-600 text-xs">
+                      Password must be 6 characters
+                    </span>
+                  )}
+                  {errors.password?.type === "maxLength" && (
+                    <span className="text-red-600 text-xs">
+                      Password must be less than 20
+                    </span>
+                  )}
+                  {errors.password?.type === "pattern" && (
+                    <span className="text-red-600 text-xs">
+                      Password must have one Uppercase one lower case, one
+                      number and one special character.
+                    </span>
+                  )}
               </div>
 
               {/* Photo URL Input */}

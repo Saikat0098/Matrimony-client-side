@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layoute/MainLayout";
 import Home from "../Home/Home";
-import Signup from "../AuthProvider/Signup";
-import Login from "../AuthProvider/Login";
+import Signup from "../Authentication/Signup";
+import Login from "../Authentication/Login";
 
 
 
