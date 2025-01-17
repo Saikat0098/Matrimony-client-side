@@ -16,11 +16,11 @@ import {
 } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 
-const Dashboard = ({ role = 'admin' }) => {
+const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   const userMenuItems = [
-    { icon: Home, label: 'Dashboard', href: '/dashboard', active: true },
+    // { icon: Home, label: 'Dashboard', href: '/dashboard', active: true },
     { icon: Settings, label: 'Edit Biodata', href: '/dashboard/edit-biodata' },
     { icon: User, label: 'View Biodata', href: '/dashboard/view-biodata' },
     { icon: Phone, label: 'My Contact Request', href: '/dashboard/contact-requests' },
@@ -28,13 +28,15 @@ const Dashboard = ({ role = 'admin' }) => {
   ];
 
   const adminMenuItems = [
-    { icon: Home, label: 'Admin Dashboard', href: '/dashboard', active: true },
+    { icon: Home, label: 'Admin Dashboard', href: '/dashboard/admin-dashboard', active: true },
     { icon: Users, label: 'Manage Users', href: '/dashboard/manage-users' },
     { icon: Shield, label: 'Approve Premium', href: '/dashboard/approve-premium' },
     { icon: MessageCircle, label: 'Approve Contact Requests', href: '/dashboard/approve-contacts' }
   ];
 
-  const menuItems = role === 'admin' ? adminMenuItems : userMenuItems;
+const role = true
+
+  const menuItems = role  ? adminMenuItems : userMenuItems;
 
   const stats = [
     {
@@ -166,7 +168,8 @@ const Dashboard = ({ role = 'admin' }) => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+     
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {stats.map((stat, index) => (
               <div key={index} className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-sm border border-purple-100">
                 <div className="flex justify-between items-start">
@@ -184,7 +187,7 @@ const Dashboard = ({ role = 'admin' }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Content Area */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-sm border border-purple-100 p-6">
