@@ -18,7 +18,7 @@ const SocialLogin = () => {
       console.log(userInfo);
       // create userCollection data base saved
       axiosPublic.post("/users", userInfo).then((res) => {
-        if (res.data.insertedId) {
+        if (res.data.insertedId || result.user) {
           toast.success("signin successfuly");
           navigate("/");
         }
