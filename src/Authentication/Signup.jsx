@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+import { FcGoogle } from "react-icons/fc";
+import SocialLogin from "../Components/SocialLogin";
 
 const Signup = () => {
   const axiosPublic = useAxiosPublic();
@@ -17,12 +19,14 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile , googleSignIn } = useAuth();
+
+
 
   const onSubmit = (data) => {
     createUser(data.email, data.password).then((res) => {
       const user = res.user;
-      updateUserProfile(data.name, data.photoURL).then(async (name) => {
+      updateUserProfile(data.name, data.photoURL).then(async () => {
         if (user) {
           const userInfo = { name: user.displayName, email: user.email };
           console.log(userInfo);
@@ -42,11 +46,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 p-4 ">
       {/* Main Container with Glass Effect */}
       <div
         className="max-w-5xl w-full bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden
-                      md:flex md:h-auto lg:h-[500px] my-8"
+                      md:flex md:h-auto lg:h-[550px] my-8"
       >
         <div
           className="md:w-5/12 relative bg-purple-500 py-6 px-4 lg:py-8 lg:px-6
@@ -74,7 +78,7 @@ const Signup = () => {
         </div>
 
         {/* Right Form Side */}
-        <div className="md:w-7/12 px-4 py-6 lg:px-8 lg:py-8 flex flex-col justify-center">
+        <div className="md:w-7/12 px-4 py-6 lg:px-8 lg:py-12 flex flex-col justify-center">
           <div className="max-w-sm w-full mx-auto">
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">
               Create Your Account
@@ -161,7 +165,7 @@ const Signup = () => {
                   required
                 />
               </div>
-
+             
               {/* Submit Button */}
               <button
                 type="submit"
@@ -183,6 +187,9 @@ const Signup = () => {
                 </Link>
               </p>
             </form>
+             <div className="py-2">
+             <SocialLogin></SocialLogin>
+             </div>
           </div>
         </div>
       </div>

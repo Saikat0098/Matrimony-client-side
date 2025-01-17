@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
+import SocialLogin from '../Components/SocialLogin';
 
 const Login = () => {
   return (
@@ -60,15 +61,7 @@ const Login = () => {
                 />
               </div>
 
-              {/* Google Sign-in Button */}
-              <button
-                type="button"
-                className="w-full py-2 bg-white border border-gray-300 text-gray-700 rounded-xl flex items-center justify-center gap-2
-                          hover:bg-gray-100 transition-all duration-300 font-medium focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-              >
-                <FcGoogle className="w-5 h-5" />
-                Sign in with Google
-              </button>
+               
 
               {/* Submit Button */}
               <button
@@ -88,6 +81,9 @@ const Login = () => {
                 </Link>
               </p>
             </form>
+            <div className='py-4'>
+              <SocialLogin></SocialLogin>
+            </div>
           </div>
         </div>
       </div>
