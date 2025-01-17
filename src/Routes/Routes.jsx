@@ -5,6 +5,8 @@ import Signup from "../Authentication/Signup";
 import Login from "../Authentication/Login";
 import Biodata from "../Pages/Biodata/Biodata";
 import BiodataDetails from "../Pages/Biodata/BiodataDetails";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+ 
 
 
 
@@ -33,6 +35,17 @@ export const router = createBrowserRouter([
                 path:'biodataDetails/:id' , 
                 element: <BiodataDetails></BiodataDetails> , 
                 loader: () => fetch(`http://localhost:5000/biodata`)
+            } , 
+           
+        ] , 
+       
+    } , 
+    {
+        path: 'dashboard' , 
+        element: <Dashboard></Dashboard> , 
+        children: [
+            {
+                
             }
         ]
     }

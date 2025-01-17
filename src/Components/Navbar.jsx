@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Heart, LogOut, User } from 'lucide-react';
 import useAuth from '../Hooks/useAuth';
 import toast from 'react-hot-toast';
+import { MdDashboardCustomize } from "react-icons/md";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +47,14 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-purple-500 transition">
               Contact Us
             </Link>
+            {
+              user?.email &&
+               <Link to="/dashboard" className="text-gray-700 flex space-x-2 hover:text-purple-500 transition">
+              <MdDashboardCustomize />
+
+              Dashboard
+            </Link>
+            }
           </div>
         </div>
 
