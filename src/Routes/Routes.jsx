@@ -9,6 +9,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import ManageUsers from "../Pages/Dashboard/Admin/Manageusers";
 import ApprovePremium from "../Pages/Dashboard/Admin/ApprovePremium";
 import AdminDashboard from "../Pages/Dashboard/Admin/AdminDashboard";
+import EditBiodata from "../Pages/Dashboard/UserDashBoard/EditBiodata";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,12 @@ export const router = createBrowserRouter([
         path: "approve-premium",
         element: <ApprovePremium></ApprovePremium>,
       },
+
+      // user routes
+      {
+        path: 'edit-biodata',
+        element: <EditBiodata></EditBiodata>
+      }
     ],
   },
 ]);

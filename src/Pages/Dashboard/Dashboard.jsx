@@ -14,14 +14,17 @@ import {
   Shield,
   MessageCircle,
 } from "lucide-react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
 import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate()
+  const { user , logOut} = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   const userMenuItems = [
     // { icon: Home, label: 'Dashboard', href: '/dashboard', active: true },
@@ -55,6 +58,8 @@ const Dashboard = () => {
     },
   ];
 
+
+
   const [isAdmin, isLoading] = useAdmin();
 
   const role = isAdmin;
@@ -65,7 +70,15 @@ const Dashboard = () => {
   </div>
   }
 
+
   const menuItems = role ? adminMenuItems : userMenuItems;
+
+  const handelLogOut = ()=>{
+     logOut()
+      toast.success('LogOut success')
+      navigate('/')
+ 
+  }
 
   const stats = [
     {
@@ -142,7 +155,9 @@ const Dashboard = () => {
           ))}
 
           {/* Logout Button */}
-          <button className="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 mt-4">
+          <button
+           onClick={handelLogOut}
+          className="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 mt-4">
             <LogOut size={20} />
             <span className="font-medium">Logout</span>
           </button>
