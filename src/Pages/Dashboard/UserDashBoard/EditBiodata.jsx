@@ -3,14 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Heart } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import useBiodata from '../../../Hooks/useBiodata';
+import useAuth from '../../../Hooks/useAuth';
 
 const EditBiodata = () => {
+  const {user} = useAuth()
+  const axiosSecure = useAxiosSecure()
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
 
   });
 
-  const [errors, setErrors] = useState({});
+  const [biodata] = useBiodata() ; 
+  
+  const biodataid = biodata.map(item => item.BiodataId) ; 
+const LastBiodataId = biodataid.length ; 
+console.log('id' , LastBiodataId);
+ 
 
   const divisions = [
     'Dhaka', 'Chattagra', 'Rangpur', 'Barisal', 'Khulna', 'Mymensingh', 'Sylhet'
@@ -53,32 +64,55 @@ const EditBiodata = () => {
     return age.toString();
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    // const requiredFields = [
-    //   'biodataType', 'height', 'weight', 'occupation', 'race', 'permanentDivision', 'presentDivision', 'expectedPartnerHeight', 'expectedPartnerWeight', 'mobileNumber'
-    // ];
+ 
+// "Gender": "male",
+// "Name": "Paloma Christensen",
+// "ProfileImage": "Numquam quam veniam",
+// "DateOfBirth": "18/04/1902",
+// "Age": "Lorem dolor fugiat q",
+// "Height": "6'7\"",
+// "Weight": "177 kg",
+// "Occupation": "Engineer",
+// "Race": "Medium",
+// "FathersName": "Allistair Ross",
+// "MothersName": "Felix Marks",
+// "PermanentDivision": "Mymensingh",
+// "PresentDivision": "Barisal",
+// "ExpectedPartnerAge": "Repellendus Quam ad",
+// "ExpectedPartnerHeight": "5'7\"",
+// "ExpectedPartnerWeight": "62 kg",
+// "ContactEmail": "",
+// "MobileNumber": "+1 (551) 209-6141"
+  //   const newErrors = {};
+  //   // const requiredFields = [
+  //   //   'biodataType', 'height', 'weight', 'occupation', 'race', 'permanentDivision', 'presentDivision', 'expectedPartnerHeight', 'expectedPartnerWeight', 'mobileNumber'
+  //   // ];
 
-    // requiredFields.forEach((field) => {
-    //   if (!formData[field]) {
-    //     newErrors[field] = 'This field is required';
-    //   }
-    // });
+  //   // requiredFields.forEach((field) => {
+  //   //   if (!formData[field]) {
+  //   //     newErrors[field] = 'This field is required';
+  //   //   }
+  //   // });
 
-    const mobileRegex = /^[\d+]{11,}$/;
-    if (formData.mobileNumber && !mobileRegex.test(formData.mobileNumber)) {
-      newErrors.mobileNumber = 'Please enter a valid 11-digit mobile number';
-    }
+  //   const mobileRegex = /^[\d+]{11,}$/;
+  //   if (formData.mobileNumber && !mobileRegex.test(formData.mobileNumber)) {
+  //     newErrors.mobileNumber = 'Please enter a valid 11-digit mobile number';
+  //   }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const signUpData = Object.fromEntries(formData.entries());
-    console.log(signUpData);
+   e.preventDefault()
+   const formData = new FormData(e.target);
+   const biodataInfo = Object.fromEntries(formData.entries());
+ 
+
+    axiosSecure.post('/biodata' , biodataInfo )
+    .then((res) =>{
+      console.log(res.data);
+    })
 
   };
 
@@ -98,8 +132,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Biodata Type*</label>
                 <select
-                  name="biodataType"
-                  value={formData.biodataType}
+                  name="Gender"
                   // onChange={handleChange}
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
                 >
@@ -115,9 +148,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  // onChange={handleChange}
+                  name="Name"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -127,7 +158,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Profile Image URL</label>
                 <input
                   type="text"
-                  name="profileImage"
+                  name="ProfileImage"
                   value={formData.profileImage}
                   // onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -140,7 +171,7 @@ const EditBiodata = () => {
                 <DatePicker
                   selected={formData.dateOfBirth}
                   onChange={handleDateChange}
-                  name='dateOfBirth'
+                  name='DateOfBirth'
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select date"
@@ -155,7 +186,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Age</label>
                 <input
                   type="text"
-                  name="age"
+                  name="Age"
                   defaultValue={formData.age}
                   className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
                 />
@@ -165,7 +196,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Height*</label>
                 <select
-                  name="height"
+                  name="Height"
                   value={formData.height}
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 >
@@ -181,8 +212,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Weight*</label>
                 <select
-                  name="weight"
-                  value={formData.weight}
+                  name="Weight"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 >
                   <option value="">Select Weight</option>
@@ -197,9 +227,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Occupation*</label>
                 <select
-                  name="occupation"
-                  value={formData.occupation}
-                 
+                  name="Occupation"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 >
                   <option value="">Select Occupation</option>
@@ -214,8 +242,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Race*</label>
                 <select
-                  name="race"
-                  value={formData.race}
+                  name="Race"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 >
                   <option value="">Select Race</option>
@@ -231,7 +258,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Father's Name</label>
                 <input
                   type="text"
-                  name="fathersName"
+                  name="FathersName"
                   value={formData.fathersName}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 />
@@ -242,8 +269,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Mother's Name</label>
                 <input
                   type="text"
-                  name="mothersName"
-                  value={formData.mothersName}
+                  name="MothersName"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -252,9 +278,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Permanent Division*</label>
                 <select
-                  name="permanentDivision"
-                  value={formData.permanentDivision}
-                  // onChange={handleChange}
+                  name="PermanentDivision"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
                 >
                   <option value="">Select Division</option>
@@ -269,8 +293,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Present Division*</label>
                 <select
-                  name="presentDivision"
-                  value={formData.presentDivision}
+                  name="PresentDivision"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 >
                   <option value="">Select Division</option>
@@ -286,8 +309,7 @@ const EditBiodata = () => {
                 <label className="block text-sm font-medium text-gray-700">Expected Partner Age</label>
                 <input
                   type="text"
-                  name="expectedPartnerAge"
-                  value={formData.expectedPartnerAge}
+                  name="ExpectedPartnerAge"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -296,8 +318,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Expected Partner Height*</label>
                 <select
-                  name="expectedPartnerHeight"
-                  value={formData.expectedPartnerHeight}
+                  name="ExpectedPartnerHeight"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
                 >
                   <option value="">Select Height</option>
@@ -311,8 +332,7 @@ const EditBiodata = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Expected Partner Weight*</label>
                 <select
-                  name="expectedPartnerWeight"
-                  value={formData.expectedPartnerWeight}
+                  name="ExpectedPartnerWeight"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500}`}
                 >
                   <option value="">Select Weight</option>
@@ -329,9 +349,8 @@ const EditBiodata = () => {
               <label className="block text-sm font-medium text-gray-700">Contact Email</label>
               <input
                 type="email"
-                name="contactEmail"
-                value={formData.contactEmail}
-                readOnly
+                name="ContactEmail"
+                defaultValue={user?.email}
                 className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
               />
             </div>
@@ -341,8 +360,7 @@ const EditBiodata = () => {
               <label className="block text-sm font-medium text-gray-700">Mobile Number*</label>
               <input
                 type="tel"
-                name="mobileNumber"
-                value={formData.mobileNumber}
+                name="MobileNumber"
                 className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
               />
              

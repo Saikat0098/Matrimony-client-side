@@ -20,7 +20,7 @@ const Biodata = () => {
   console.log(division?.value);
  
   const [biodatas] = useBiodata() 
-  console.log(biodatas);
+  // console.log(biodatas);
 
   // Simulated API call to fetch filter options
   useEffect(() => {
