@@ -22,10 +22,10 @@ const Biodata = () => {
   const [biodatas , isLoading] = useBiodata() 
 
 
-  // Simulated API call to fetch filter options
+  
   useEffect(() => {
     const fetchFilters = async () => {
-      // Replace with your actual API call
+ 
       setFilters({
         divisions: [
           { value: 'dhaka', label: 'Dhaka' },
@@ -51,35 +51,7 @@ const Biodata = () => {
     fetchFilters();
   }, []);
 
-  // const biodatas = [
-  //   {
-  //     id: 1677,
-  //     type: 'Male',
-  //     division: 'Rajshahi',
-  //     age: 32,
-  //     occupation: 'Software Engineer',
-  //     imageUrl: '/api/placeholder/80/80',
-  //     views: 245
-  //   },
-  //   {
-  //     id: 1676,
-  //     type: 'Female',
-  //     division: 'Dhaka',
-  //     age: 28,
-  //     occupation: 'Doctor',
-  //     imageUrl: '/api/placeholder/80/80',
-  //     views: 189
-  //   },
-  //   {
-  //     id: 1666,
-  //     type: 'Male',
-  //     division: 'Khulna',
-  //     age: 30,
-  //     occupation: 'Teacher',
-  //     imageUrl: '/api/placeholder/80/80',
-  //     views: 156
-  //   }
-  // ];
+   
 
   const customSelectStyles = {
     control: (base) => ({

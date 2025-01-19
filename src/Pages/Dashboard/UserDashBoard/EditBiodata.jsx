@@ -19,8 +19,8 @@ const EditBiodata = () => {
   const [biodata] = useBiodata() ; 
   
   const biodataid = biodata.map(item => item.BiodataId) ; 
-const LastBiodataId = biodataid.length ; 
-console.log('id' , LastBiodataId);
+ const LastBiodataId = biodataid.length ; 
+ console.log('id' , LastBiodataId);
  
 
   const divisions = [
@@ -107,9 +107,11 @@ console.log('id' , LastBiodataId);
    e.preventDefault()
    const formData = new FormData(e.target);
    const biodataInfo = Object.fromEntries(formData.entries());
+    
+  //  const newBiodataInfo = {...biodataInfo , email : 'pending'} ; 
  
 
-    axiosSecure.post('/biodata' , biodataInfo )
+    axiosSecure.post('/biodata' , biodataInfo    )
     .then((res) =>{
       console.log(res.data);
     })

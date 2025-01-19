@@ -16,8 +16,10 @@ import {
   Palette
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import usePremiumUser from '../../../Hooks/usePremiumUser';
 
-const ViewBioDataDetails = ({ item }) => {
+const ViewBioDataDetails = ({ item ,  }) => {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   const {
@@ -40,13 +42,31 @@ const ViewBioDataDetails = ({ item }) => {
     ContactEmail,
     MobileNumber,
     Gender,
-    isPremium,
+ 
     _id,
+    BiodataId ,
+  
   } = item;
+  const [isPremium] = usePremiumUser()
 
-  const handlePremiumRequest = (email) => {
-    console.log(email);
+  const PremiumMember =  isPremium?.find((item) => item.status )
+  
+  const isPremiumMember = PremiumMember?.status ; 
+
+  console.log( 'ispremiumDetasils' , isPremiumMember);
+  
+ const axiosSecure = useAxiosSecure()
+  const handlePremiumRequest = async(email , BiodataId , Name ) => {
+
+
+    const premiumInfo = {email , BiodataId , Name ,  status:"pending"} 
+    console.table(premiumInfo);
     // onPremiumRequest(_id);
+    const PremiumRequest  = await axiosSecure.post('/premium-request-bioData' , premiumInfo)
+    .then(res =>{
+      //  console.log('premium request' , PremiumRequest);
+      console.log(res.data);
+    })
     setShowPremiumModal(false);
   };
 
@@ -54,7 +74,7 @@ const ViewBioDataDetails = ({ item }) => {
     <div className="relative">
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
         <div className="relative h-48 bg-gradient-to-r from-pink-500 to-rose-500">
-          {isPremium && (
+          {isPremiumMember ==='approved' && (
             <div className="absolute top-4 right-4 px-4 py-2 bg-yellow-400 text-white rounded-full flex items-center gap-2">
               <Crown className="w-5 h-5" />
               <span className="font-semibold">Premium</span>
@@ -95,7 +115,7 @@ const ViewBioDataDetails = ({ item }) => {
               </div>
 
               <div className="space-x-3">
-                {!isPremium && (
+                {!isPremiumMember  && (
                   <button
                     onClick={() => setShowPremiumModal(true)}
                     className="inline-block py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
@@ -103,6 +123,12 @@ const ViewBioDataDetails = ({ item }) => {
                     Make Premium
                   </button>
                 )}
+                {
+                  isPremiumMember ==='pending'  && <div className="flex flex-col justify-center items-center space-y-2">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+                  <p className="text-blue-500 text-sm font-medium">Pending...</p>
+                </div>
+                }
               </div>
             </div>
 
@@ -216,7 +242,7 @@ const ViewBioDataDetails = ({ item }) => {
                 Cancel
               </button>
               <button
-                onClick={()=>handlePremiumRequest(ContactEmail)}
+                onClick={()=>handlePremiumRequest(ContactEmail , BiodataId , Name)}
                 className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg hover:from-pink-600 hover:to-rose-600 transition-colors"
               >
                 Yes, Make Premium
