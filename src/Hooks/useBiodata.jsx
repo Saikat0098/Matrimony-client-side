@@ -6,14 +6,14 @@ import useAxiosPublic from "./useAxiosPublic";
  import React from 'react';
  
  const useBiodata = () => {
-     const {data: biodatas=[]} = useQuery({
+     const {data: biodatas=[] , isLoading} = useQuery({
         queryKey: ['biodata'] , 
         queryFn: async()=>{
             const res = await axiosPublic.get('/biodata') ; 
             return res.data
         }
      })
-     return [biodatas]
+     return [biodatas , isLoading]
  };
  
  export default useBiodata;
