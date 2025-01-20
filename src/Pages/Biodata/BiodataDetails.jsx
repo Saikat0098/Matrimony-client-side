@@ -13,6 +13,10 @@ import {
   Mail,
   Phone,
   Shield,
+  Palette,
+  Home,
+  Users,
+  WeightIcon,
 } from "lucide-react";
 import usePremiumUser from "../../Hooks/usePremiumUser";
 
@@ -89,7 +93,7 @@ const BiodataDetails = () => {
                   {!isPremium?.find((item) => item.status === "approved") && (
                     <Link
                       to={`/checkout/${biodataDetails._id}`}
-                      className="inline-block py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
+                      className="inline-block text-xs md:text-[16px] py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
                     >
                       Request Contact Info
                     </Link>
@@ -132,13 +136,13 @@ const BiodataDetails = () => {
                 </div>
               )}
 
-              {/* Rest of the profile information */}
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/*   profile information */}
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">
                     Personal Information
                   </h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4">
                     <div className="flex items-center gap-2 text-gray-600">
                       <Calendar className="w-4 h-4" />
                       <span>Age: {biodataDetails.Age} years</span>
@@ -150,39 +154,60 @@ const BiodataDetails = () => {
                     <div className="flex items-center gap-2 text-gray-600">
                       <Weight className="w-4 h-4" />
                       <span>Weight: {biodataDetails.Weight}</span>
+                      <span>Weight:  </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <User className="w-4 h-4" />
                       <span>Gender: {biodataDetails.Gender}</span>
                     </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                    <Palette className="w-4 h-4" />
+                    <span>Race: {biodataDetails.Race}</span>
+                  </div>
                   </div>
                 </div>
+                 {/* Family Information */}
+              <div className="space-y-6">
+                <h2 className="text-xl font-semibold text-gray-900">Family Information</h2>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Users className="w-4 h-4" />
+                    <span>Father's Name: {biodataDetails.FathersName}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Users className="w-4 h-4" />
+                    <span>Mother's Name: {biodataDetails.MothersName}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Home className="w-4 h-4" />
+                    <span>Permanent Division: {biodataDetails.PermanentDivision}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span>Present Division: {biodataDetails.PresentDivision}</span>
+                  </div>
+                </div>
+              </div>
 
-                <div className="space-y-4">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                    Partner Preferences
-                  </h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Target className="w-4 h-4" />
-                      <span>
-                        Expected Age: {biodataDetails.ExpectedPartnerAge}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Ruler className="w-4 h-4" />
-                      <span>
-                        Expected Height: {biodataDetails.ExpectedPartnerHeight}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Weight className="w-4 h-4" />
-                      <span>
-                        Expected Weight: {biodataDetails.ExpectedPartnerWeight}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              {/* Partner Preferences */}
+              <div className="space-y-6">
+                             <h2 className="text-xl font-semibold text-gray-900">Partner Preferences</h2>
+                             <div className="grid grid-cols-1 gap-4">
+                               <div className="flex items-center gap-2 text-gray-600">
+                                 <Target className="w-4 h-4" />
+                                 <span>Expected Age: {biodataDetails.ExpectedPartnerAge}</span>
+                               </div>
+                               <div className="flex items-center gap-2 text-gray-600">
+                                 <Ruler className="w-4 h-4" />
+                                 <span>Expected Height: {biodataDetails.ExpectedPartnerHeight}</span>
+                               </div>
+                               <div className="flex items-center gap-2 text-gray-600">
+                                 <WeightIcon className="w-4 h-4" />
+                                 <span>Expected Weight: {biodataDetails.ExpectedPartnerWeight}</span>
+                               </div>
+                             </div>
+                           </div>
+
               </div>
             </div>
           </div>
