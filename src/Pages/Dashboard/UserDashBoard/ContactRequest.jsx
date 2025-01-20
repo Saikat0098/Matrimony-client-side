@@ -94,7 +94,7 @@ const ContactRequest = () => {
                     <div className="flex items-center justify-center">
                       <span 
                         className={`px-4 py-1 rounded-full text-xs font-semibold ${
-                          contact.status === 'Approved' 
+                          contact.status === 'approved' 
                             ? 'bg-green-100 text-green-800'
                             : 'bg-yellow-100 text-yellow-800'
                         }`}

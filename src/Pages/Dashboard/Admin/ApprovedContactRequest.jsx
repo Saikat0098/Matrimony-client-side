@@ -7,13 +7,21 @@ const ApprovedContactRequests = () => {
   const [isLoading, setIsLoading] = React.useState(false);
    
 const axiosSecure = useAxiosSecure()
-  const {data : contactRequest = []} = useQuery({
+  const {data : contactRequest = [] , refetch} = useQuery({
     queryKey : ['contactRequest'] , 
     queryFn : async()=>{
         const res = await axiosSecure.get('/request-user-info')
         return res.data
     }
   })
+
+//   handelStatusChange
+
+const handelStatusChange = async(email , status)=>{
+    const res = await axiosSecure.patch(`/request-bioData-info-status-update/${email}` , {status}) 
+    refetch()
+    console.log(res.data);
+}
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 md:p-6">
@@ -69,9 +77,16 @@ const axiosSecure = useAxiosSecure()
                   </td>
                   <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-center">
                     <div className="flex items-center justify-center">
-                      <span className="px-4 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                    <button 
+                    onClick={() => handelStatusChange(contact.email , 'approved')}
+                        className={`px-4 py-1 rounded-full text-xs font-semibold ${
+                          contact.status === 'approved' 
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}
+                      >
                         {contact.status}
-                      </span>
+                      </button>
                     </div>
                   </td>
                 </tr>
