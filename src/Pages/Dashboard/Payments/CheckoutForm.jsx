@@ -2,12 +2,16 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CheckoutForm = ({ BioDataInfo }) => {
     const {user} = useAuth()
     const {BiodataId , ContactEmail , MobileNumber , Name} = BioDataInfo ;
-    const paymentInfo = {...BioDataInfo , email: user?.email ,  status : 'pending'} ; 
-    // console.log(paymentInfo);
+  
+    const paymentInfo = {ContactEmail , MobileNumber , Name , BiodataId , email: user?.email ,  status : 'pending'} ; 
+    console.log(paymentInfo);
+    const navigate = useNavigate()
      
  
     const [error, setError] = useState("");
@@ -77,9 +81,13 @@ const CheckoutForm = ({ BioDataInfo }) => {
                 
             }
           // now save the payment in the database
+ 
            
            const res = await axiosSecure.post('/request-user-info' ,paymentInfo )
-             console.log(res.data);
+              if(res.data){
+                toast.success('payment success')
+                navigate('/dashboard/contact-requests')
+              }
         }
 
          

@@ -19,14 +19,21 @@ import {
   WeightIcon,
 } from "lucide-react";
 import usePremiumUser from "../../Hooks/usePremiumUser";
+import useBiodata from "../../Hooks/useBiodata";
+import useDirectPremiumUsers from "../../Hooks/useDirectPremiumUsers";
 
 const BiodataDetails = () => {
   const data = useLoaderData();
   const { id } = useParams();
   const [isPremium] = usePremiumUser();
- const isPremiumMember =  isPremium?.find((item) => item.status )
- 
-
+  const [PremiumUser, refetch, isLoading] = useDirectPremiumUsers();
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-10 h-10 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   // Filter the selected biodata details
   const biodataDetails = data.filter((item) => item._id === id)[0];
   const gender = biodataDetails.Gender;
@@ -41,14 +48,16 @@ const BiodataDetails = () => {
     console.log("Added to favorites:", biodataDetails._id);
   };
 
+  
+
+
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
         {/* Main Profile Section */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
-        
-            <div className="relative h-48 bg-gradient-to-r from-pink-500 to-rose-500" />
-      
+          <div className="relative h-48 bg-gradient-to-r from-pink-500 to-rose-500" />
 
           <div className="relative px-6 pb-8">
             {/* Profile Image */}
@@ -59,7 +68,7 @@ const BiodataDetails = () => {
                   alt={biodataDetails.Name}
                   className="w-56 h-56 rounded-2xl object-cover border-4 border-white shadow-lg"
                 />
-               
+
                 <button
                   onClick={handleAddToFavourites}
                   className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-pink-50 transition-colors duration-200"
@@ -75,7 +84,6 @@ const BiodataDetails = () => {
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
                     {biodataDetails.Name}
-                    
                   </h1>
                   <div className="flex items-center gap-4 text-gray-600">
                     <div className="flex items-center gap-1">
@@ -90,51 +98,53 @@ const BiodataDetails = () => {
                 </div>
 
                 <div className="space-x-3">
-                  {!isPremium?.find((item) => item.status === "approved") && (
-                    <Link
-                      to={`/checkout/${biodataDetails._id}`}
-                      className="inline-block text-xs md:text-[16px] py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
-                    >
-                      Request Contact Info
-                    </Link>
-                  )}
+                  {!PremiumUser &&
+                    !isPremium?.find((item) => item.status === "approved") && (
+                      <Link
+                        to={`/checkout/${biodataDetails._id}`}
+                        className="inline-block text-xs md:text-[16px] py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
+                      >
+                        Request Contact Info
+                      </Link>
+                    )}
                 </div>
               </div>
 
               {/* Contact Information Card for Premium Users */}
-              {isPremium?.find((item) => item.status === "approved") && (
-                <div className="mt-6 bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-100">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-yellow-800 flex items-center gap-2">
-                      <Crown className="w-5 h-5" />
-                      Premium Contact Information
-                    </h2>
-                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
-                      Verified Details
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                      <Mail className="w-5 h-5 text-yellow-600" />
-                      <div>
-                        <div className="text-sm text-gray-500">Email</div>
-                        <div className="text-gray-900">
-                          {biodataDetails.ContactEmail}
+              {isPremium?.find((item) => item.status === "approved") ||
+                (PremiumUser && (
+                  <div className="mt-6 bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-100">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold text-yellow-800 flex items-center gap-2">
+                        <Crown className="w-5 h-5" />
+                        Premium Contact Information
+                      </h2>
+                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
+                        Verified Details
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
+                        <Mail className="w-5 h-5 text-yellow-600" />
+                        <div>
+                          <div className="text-sm text-gray-500">Email</div>
+                          <div className="text-gray-900">
+                            {biodataDetails.ContactEmail}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
+                        <Phone className="w-5 h-5 text-yellow-600" />
+                        <div>
+                          <div className="text-sm text-gray-500">Phone</div>
+                          <div className="text-gray-900">
+                            {biodataDetails.MobileNumber}
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                      <Phone className="w-5 h-5 text-yellow-600" />
-                      <div>
-                        <div className="text-sm text-gray-500">Phone</div>
-                        <div className="text-gray-900">
-                          {biodataDetails.MobileNumber}
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              )}
+                ))}
 
               {/*   profile information */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -154,60 +164,73 @@ const BiodataDetails = () => {
                     <div className="flex items-center gap-2 text-gray-600">
                       <Weight className="w-4 h-4" />
                       <span>Weight: {biodataDetails.Weight}</span>
-                      <span>Weight:  </span>
+                      <span>Weight: </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <User className="w-4 h-4" />
                       <span>Gender: {biodataDetails.Gender}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                    <Palette className="w-4 h-4" />
-                    <span>Race: {biodataDetails.Race}</span>
-                  </div>
-                  </div>
-                </div>
-                 {/* Family Information */}
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900">Family Information</h2>
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Users className="w-4 h-4" />
-                    <span>Father's Name: {biodataDetails.FathersName}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Users className="w-4 h-4" />
-                    <span>Mother's Name: {biodataDetails.MothersName}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Home className="w-4 h-4" />
-                    <span>Permanent Division: {biodataDetails.PermanentDivision}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <MapPin className="w-4 h-4" />
-                    <span>Present Division: {biodataDetails.PresentDivision}</span>
+                      <Palette className="w-4 h-4" />
+                      <span>Race: {biodataDetails.Race}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+                {/* Family Information */}
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    Family Information
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Users className="w-4 h-4" />
+                      <span>Father's Name: {biodataDetails.FathersName}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Users className="w-4 h-4" />
+                      <span>Mother's Name: {biodataDetails.MothersName}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Home className="w-4 h-4" />
+                      <span>
+                        Permanent Division: {biodataDetails.PermanentDivision}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <MapPin className="w-4 h-4" />
+                      <span>
+                        Present Division: {biodataDetails.PresentDivision}
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Partner Preferences */}
-              <div className="space-y-6">
-                             <h2 className="text-xl font-semibold text-gray-900">Partner Preferences</h2>
-                             <div className="grid grid-cols-1 gap-4">
-                               <div className="flex items-center gap-2 text-gray-600">
-                                 <Target className="w-4 h-4" />
-                                 <span>Expected Age: {biodataDetails.ExpectedPartnerAge}</span>
-                               </div>
-                               <div className="flex items-center gap-2 text-gray-600">
-                                 <Ruler className="w-4 h-4" />
-                                 <span>Expected Height: {biodataDetails.ExpectedPartnerHeight}</span>
-                               </div>
-                               <div className="flex items-center gap-2 text-gray-600">
-                                 <WeightIcon className="w-4 h-4" />
-                                 <span>Expected Weight: {biodataDetails.ExpectedPartnerWeight}</span>
-                               </div>
-                             </div>
-                           </div>
-
+                {/* Partner Preferences */}
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    Partner Preferences
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Target className="w-4 h-4" />
+                      <span>
+                        Expected Age: {biodataDetails.ExpectedPartnerAge}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Ruler className="w-4 h-4" />
+                      <span>
+                        Expected Height: {biodataDetails.ExpectedPartnerHeight}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <WeightIcon className="w-4 h-4" />
+                      <span>
+                        Expected Weight: {biodataDetails.ExpectedPartnerWeight}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

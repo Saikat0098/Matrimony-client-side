@@ -17,8 +17,8 @@ const axiosSecure = useAxiosSecure()
 
 //   handelStatusChange
 
-const handelStatusChange = async(email , status)=>{
-    const res = await axiosSecure.patch(`/request-bioData-info-status-update/${email}` , {status}) 
+const handelStatusChange = async(id , status)=>{
+    const res = await axiosSecure.patch(`/request-bioData-info-status-update/${id}` , {status}) 
     refetch()
     console.log(res.data);
 }
@@ -78,7 +78,7 @@ const handelStatusChange = async(email , status)=>{
                   <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-center">
                     <div className="flex items-center justify-center">
                     <button 
-                    onClick={() => handelStatusChange(contact.email , 'approved')}
+                    onClick={() => handelStatusChange(contact._id , 'approved')}
                         className={`px-4 py-1 rounded-full text-xs font-semibold ${
                           contact.status === 'approved' 
                             ? 'bg-green-100 text-green-800'

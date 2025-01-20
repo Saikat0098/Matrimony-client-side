@@ -6,14 +6,14 @@ import useAuth from "./useAuth";
 const axiosSecure = useAxiosSecure();
 const usePremiumUser = () => {
   const { user } = useAuth();
-  const { data: isPremium = [] , refetch} = useQuery({
+  const { data: isPremium = [] , refetch , isLoading} = useQuery({
     queryKey: [user?.email, "isPremium"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/premium-user/${user.email}`);
       return res.data;
     },
   });
-  return [isPremium , refetch];
+  return [isPremium , refetch , isLoading];
 };
 
 export default usePremiumUser;

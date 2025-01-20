@@ -21,6 +21,11 @@ const ManageUsers = () => {
   };
 
   const togglePremium = (id) => {
+    axiosSecure.patch(`/user/premium/${id}`)
+    .then((res) =>{
+      console.log(res.data);
+      refetch()
+    })
     console.log('Premium User', id);
   };
 
@@ -89,20 +94,23 @@ const ManageUsers = () => {
                   </td>
                   <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-center">
                     <div className="flex items-center justify-center space-x-2">
-                      <button
+                    <button
+                     disabled = {user.PremiumUser}
+                        onClick={() => togglePremium(user._id)}
                         className={`px-4 py-1 rounded-full text-xs font-semibold ${
-                          user.isPremium
-                            ? 'bg-purple-100 text-purple-800'
+                          user.PremiumUser === 'isPremium'
+                            ? 'bg-green-100 text-green-800 cursor-not-allowed'
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
-                        {user.isPremium ? 'Premium' : 'Basic'}
+                        {user.PremiumUser ? 'Premium' : 'Basic'}
                       </button>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
+                        disabled = {user.PremiumUser}
                           type="checkbox"
                           className="sr-only peer"
-                          checked={user.isPremium}
+                          checked={user.PremiumUser}
                           onChange={() => togglePremium(user._id)}
                         />
                         <div className="w-10 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
