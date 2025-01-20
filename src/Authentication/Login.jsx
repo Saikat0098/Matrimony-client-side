@@ -1,10 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import SocialLogin from '../Components/SocialLogin';
+import useAuth from '../Hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const Login = () => {
+  const {user ,loginUser } = useAuth() ; 
+  const navigate = useNavigate()
+  const handelLogin = e =>{
+    e.preventDefault() ; 
+    
+
+    const formData = new FormData(e.target) ; 
+    const loginInfo = Object.fromEntries(formData.entries()) ; 
+     loginUser(loginInfo.email , loginInfo.password)
+     .then(() =>{
+      navigate('/')
+      toast.success('Login successful');
+     })
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 p-4">
       {/* Main Container with Glass Effect */}
@@ -38,12 +54,13 @@ const Login = () => {
           <div className="max-w-sm w-full mx-auto">
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Login to Your Account</h3>
 
-            <form className="space-y-4">
+            <form  onSubmit={handelLogin} className="space-y-4">
               {/* Email Input */}
               <div className="space-y-1">
                 <label className="text-xs md:text-sm font-medium text-gray-700">Email</label>
                 <input
                   type="email"
+                  name='email'
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all bg-white/50 backdrop-blur-sm"
                   placeholder="Enter your email"
                   required
@@ -55,6 +72,7 @@ const Login = () => {
                 <label className="text-xs md:text-sm font-medium text-gray-700">Password</label>
                 <input
                   type="password"
+                  name='password'
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all bg-white/50 backdrop-blur-sm"
                   placeholder="Enter your password"
                   required

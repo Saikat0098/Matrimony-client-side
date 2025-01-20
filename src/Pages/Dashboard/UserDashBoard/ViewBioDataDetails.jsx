@@ -47,7 +47,7 @@ const ViewBioDataDetails = ({ item ,  }) => {
     BiodataId ,
   
   } = item;
-  const [isPremium] = usePremiumUser()
+  const [isPremium , refetch] = usePremiumUser()
 
   const PremiumMember =  isPremium?.find((item) => item.status )
   
@@ -65,6 +65,7 @@ const ViewBioDataDetails = ({ item ,  }) => {
     const PremiumRequest  = await axiosSecure.post('/premium-request-bioData' , premiumInfo)
     .then(res =>{
       //  console.log('premium request' , PremiumRequest);
+      refetch()
       console.log(res.data);
     })
     setShowPremiumModal(false);
