@@ -5,15 +5,7 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const ApprovedContactRequests = () => {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [contacts, setContacts] = React.useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      biodataId: "BIO001",
-      status: "Approved"
-    }
-  ]);
+   
 const axiosSecure = useAxiosSecure()
   const {data : contactRequest = []} = useQuery({
     queryKey : ['contactRequest'] , 

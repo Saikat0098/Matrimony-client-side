@@ -7,7 +7,7 @@ const CheckoutForm = ({ BioDataInfo }) => {
     const {user} = useAuth()
     const {BiodataId , ContactEmail , MobileNumber , Name} = BioDataInfo ;
     const paymentInfo = {...BioDataInfo , email: user?.email ,  status : 'pending'} ; 
-    console.log(paymentInfo);
+    // console.log(paymentInfo);
      
  
     const [error, setError] = useState("");
