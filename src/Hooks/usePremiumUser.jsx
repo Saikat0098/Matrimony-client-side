@@ -9,7 +9,7 @@ const usePremiumUser = () => {
   const { data: isPremium = [] , refetch , isLoading} = useQuery({
     queryKey: [user?.email, "isPremium"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/premium-user/${user.email}`);
+      const res = await axiosSecure.get(`/premium-user/${user?.email}`);
       return res.data;
     },
   });

@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import useBiodata from '../../../Hooks/useBiodata';
 import useAuth from '../../../Hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const EditBiodata = () => {
   const {user} = useAuth()
@@ -113,6 +114,8 @@ const EditBiodata = () => {
 
     axiosSecure.post('/biodata' , biodataInfo    )
     .then((res) =>{
+      toast.success('BioData Edit success')
+      navigate('/dashboard/view-biodata')
       console.log(res.data);
     })
 

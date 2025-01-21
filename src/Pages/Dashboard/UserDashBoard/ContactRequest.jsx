@@ -3,6 +3,7 @@ import { Search, Trash2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import useAuth from '../../../Hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const ContactRequest = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -11,7 +12,7 @@ const ContactRequest = () => {
   
 
   const axiosSecure = useAxiosSecure()
-  const {data : myContactRequest = []} = useQuery({
+  const {data : myContactRequest = [] , refetch} = useQuery({
     queryKey : [ user?.email , 'contactRequest'] , 
     queryFn : async()=>{
         const res = await axiosSecure.get(`/request-bioData-info/${user?.email}`)
@@ -24,9 +25,13 @@ const ContactRequest = () => {
     contact.Name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = (id) => {
-    // Add your delete logic here
-    console.log('Deleting contact with id:', id);
+  const handleDelete = async(id) => {
+   
+    const res = await axiosSecure.delete(`/request-bioData-info-delete/${id}`) ; 
+     if(res.data.deletedCount > 0){
+      refetch()
+      toast.success('Delete success')
+     }
   };
 
   const handleSearch = (e) => {

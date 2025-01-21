@@ -14,6 +14,7 @@ import ViewBioData from "../Pages/Dashboard/UserDashBoard/ViewBioData";
 import ContactRequest from "../Pages/Dashboard/UserDashBoard/ContactRequest";
 import Payments from "../Pages/Dashboard/Payments/Payments";
 import ApprovedContactRequest from "../Pages/Dashboard/Admin/ApprovedContactRequest";
+import MyFavorite from "../Pages/Dashboard/UserDashBoard/MyFavorite";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
         path: "contact-requests",
         element: <ContactRequest></ContactRequest>,
       },
+      {
+        path : 'favorites' , 
+        element: <MyFavorite></MyFavorite>
+      }
     ],
   },
 ]);

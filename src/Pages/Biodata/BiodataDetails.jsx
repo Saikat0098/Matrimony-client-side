@@ -19,14 +19,18 @@ import {
   WeightIcon,
 } from "lucide-react";
 import usePremiumUser from "../../Hooks/usePremiumUser";
-import useBiodata from "../../Hooks/useBiodata";
 import useDirectPremiumUsers from "../../Hooks/useDirectPremiumUsers";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const BiodataDetails = () => {
+  const axiosSecure = useAxiosSecure()
   const data = useLoaderData();
   const { id } = useParams();
   const [isPremium] = usePremiumUser();
   const [PremiumUser, refetch, isLoading] = useDirectPremiumUsers();
+
+  // Handle loading state
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -34,8 +38,28 @@ const BiodataDetails = () => {
       </div>
     );
   }
+
+ 
+  if (!data || !id) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-xl text-gray-600">No data available</div>
+      </div>
+    );
+  }
+
   // Filter the selected biodata details
-  const biodataDetails = data.filter((item) => item._id === id)[0];
+  const biodataDetails = data.find((item) => item._id === id);
+
+  
+  if (!biodataDetails) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-xl text-gray-600">Biodata not found</div>
+      </div>
+    );
+  }
+
   const gender = biodataDetails.Gender;
 
   // Find similar biodatas based on gender
@@ -44,13 +68,23 @@ const BiodataDetails = () => {
     .slice(0, 3);
 
   // Handle favorite
-  const handleAddToFavourites = () => {
-    console.log("Added to favorites:", biodataDetails._id);
+  const handleAddToFavourites = async(name , bioDataId , address , occupation) => {
+    // const myFavoritePerson = {name , bioDataId , address , occupation}
+    const myFavoritePerson = {name , bioDataId , address , occupation}
+    
+      await axiosSecure.post('/my-favorite' , myFavoritePerson)
+     .then(res => {
+      if(res.data.insertedId){
+        toast.success('favorite person added')
+      }
+      console.log(res.data);
+     })
   };
 
-  
+  const isPremiumApproved = Array.isArray(isPremium) && 
+    isPremium.some(item => item?.status === "approved");
 
-
+  const showContactInfo = isPremiumApproved || PremiumUser;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -70,7 +104,7 @@ const BiodataDetails = () => {
                 />
 
                 <button
-                  onClick={handleAddToFavourites}
+                  onClick={()=>handleAddToFavourites(biodataDetails.Name , biodataDetails.BiodataId , biodataDetails.PermanentDivision , biodataDetails.Occupation)}
                   className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-pink-50 transition-colors duration-200"
                 >
                   <Heart className="w-5 h-5 text-pink-500" />
@@ -98,55 +132,53 @@ const BiodataDetails = () => {
                 </div>
 
                 <div className="space-x-3">
-                  {!PremiumUser &&
-                    !isPremium?.find((item) => item.status === "approved") && (
-                      <Link
-                        to={`/checkout/${biodataDetails._id}`}
-                        className="inline-block text-xs md:text-[16px] py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
-                      >
-                        Request Contact Info
-                      </Link>
-                    )}
+                  {!showContactInfo && (
+                    <Link
+                      to={`/checkout/${biodataDetails._id}`}
+                      className="inline-block text-xs md:text-[16px] py-3 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-colors duration-300 shadow-lg shadow-pink-500/30"
+                    >
+                      Request Contact Info
+                    </Link>
+                  )}
                 </div>
               </div>
 
               {/* Contact Information Card for Premium Users */}
-              {isPremium?.find((item) => item.status === "approved") ||
-                (PremiumUser && (
-                  <div className="mt-6 bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-100">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-xl font-semibold text-yellow-800 flex items-center gap-2">
-                        <Crown className="w-5 h-5" />
-                        Premium Contact Information
-                      </h2>
-                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
-                        Verified Details
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                        <Mail className="w-5 h-5 text-yellow-600" />
-                        <div>
-                          <div className="text-sm text-gray-500">Email</div>
-                          <div className="text-gray-900">
-                            {biodataDetails.ContactEmail}
-                          </div>
+              {showContactInfo && (
+                <div className="mt-6 bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-semibold text-yellow-800 flex items-center gap-2">
+                      <Crown className="w-5 h-5" />
+                      Premium Contact Information
+                    </h2>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
+                      Verified Details
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
+                      <Mail className="w-5 h-5 text-yellow-600" />
+                      <div>
+                        <div className="text-sm text-gray-500">Email</div>
+                        <div className="text-gray-900">
+                          {biodataDetails.ContactEmail}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                        <Phone className="w-5 h-5 text-yellow-600" />
-                        <div>
-                          <div className="text-sm text-gray-500">Phone</div>
-                          <div className="text-gray-900">
-                            {biodataDetails.MobileNumber}
-                          </div>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
+                      <Phone className="w-5 h-5 text-yellow-600" />
+                      <div>
+                        <div className="text-sm text-gray-500">Phone</div>
+                        <div className="text-gray-900">
+                          {biodataDetails.MobileNumber}
                         </div>
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
+              )}
 
-              {/*   profile information */}
+              {/* Profile Information */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -164,7 +196,6 @@ const BiodataDetails = () => {
                     <div className="flex items-center gap-2 text-gray-600">
                       <Weight className="w-4 h-4" />
                       <span>Weight: {biodataDetails.Weight}</span>
-                      <span>Weight: </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <User className="w-4 h-4" />
@@ -176,6 +207,7 @@ const BiodataDetails = () => {
                     </div>
                   </div>
                 </div>
+
                 {/* Family Information */}
                 <div className="space-y-6">
                   <h2 className="text-xl font-semibold text-gray-900">

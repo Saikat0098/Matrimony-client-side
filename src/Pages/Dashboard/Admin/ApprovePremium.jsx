@@ -87,7 +87,7 @@ const ApprovedPremium = () => {
                       }`}
                       disabled={request.isPremium}
                     >
-                      {request.isPremium ? 'Already Premium' : 'Make Premium'}
+                      {request.status === 'approved' ? 'Already Premium' : 'Make Premium'}
                     </button>
                   </td>
                 </tr>
