@@ -3,6 +3,7 @@ import { Search, Trash2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../Hooks/useAuth';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
 
 const MyFavorite = () => {
  
@@ -10,7 +11,7 @@ const MyFavorite = () => {
   
 const {user} = useAuth()
 const axiosSecure = useAxiosSecure()
-  const {data : favoritePerson = [] , isLoading} = useQuery({
+  const {data : favoritePerson = [] , isLoading , refetch} = useQuery({
     queryKey : [ user?.email , 'favoritePerson'] , 
     queryFn: async() =>{
       const res = await axiosSecure.get(`/my-favorite-person/${user?.email}`) ; 
@@ -25,8 +26,13 @@ console.log('favoritePerson' , favoritePerson);
   );
 
   const handleDelete = async(id) => {
-    // Add your delete logic here
-    console.log('Deleting biodata with id:', id);
+    const res = await axiosSecure.delete(`/my-favorite-delete/${id}`) 
+    console.log(res.data);
+    if(res.data.deletedCount){
+        refetch()
+        toast.success('my favorite person delete 😢')
+    }
+   
   };
 
   const handleSearch = (e) => {
