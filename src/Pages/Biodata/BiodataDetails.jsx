@@ -22,8 +22,10 @@ import usePremiumUser from "../../Hooks/usePremiumUser";
 import useDirectPremiumUsers from "../../Hooks/useDirectPremiumUsers";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import useAuth from "../../Hooks/useAuth";
 
 const BiodataDetails = () => {
+  const {user} = useAuth()
   const axiosSecure = useAxiosSecure()
   const data = useLoaderData();
   const { id } = useParams();
@@ -70,7 +72,7 @@ const BiodataDetails = () => {
   // Handle favorite
   const handleAddToFavourites = async(name , bioDataId , address , occupation) => {
     // const myFavoritePerson = {name , bioDataId , address , occupation}
-    const myFavoritePerson = {name , bioDataId , address , occupation}
+    const myFavoritePerson = {name , bioDataId , address , occupation , email : user?.email}
     
       await axiosSecure.post('/my-favorite' , myFavoritePerson)
      .then(res => {
@@ -104,7 +106,7 @@ const BiodataDetails = () => {
                 />
 
                 <button
-                  onClick={()=>handleAddToFavourites(biodataDetails.Name , biodataDetails.BiodataId , biodataDetails.PermanentDivision , biodataDetails.Occupation)}
+                  onClick={()=>handleAddToFavourites(biodataDetails.Name , biodataDetails.BiodataId , biodataDetails.PermanentDivision , biodataDetails.Occupation , )}
                   className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-pink-50 transition-colors duration-200"
                 >
                   <Heart className="w-5 h-5 text-pink-500" />
