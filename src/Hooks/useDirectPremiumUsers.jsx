@@ -9,9 +9,10 @@ import useAxiosSecure from './useAxiosSecure';
 
 const useDirectPremiumUsers = () => {
     const axiosSecure = useAxiosSecure() ; 
-    const {user} = useAuth()
+    const {user , loading} = useAuth()
     const {data : PremiumUser = [] , isLoading} =useQuery({
         queryKey : [ user?.email ,  `PremiumUser`] , 
+         
         queryFn : async()=>{
             const res = await axiosSecure.get(`/user/premium/${user.email}`) ; 
             console.log(res.data);

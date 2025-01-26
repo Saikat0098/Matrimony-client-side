@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "./useAxiosPublic";
 
- const axiosPublic = useAxiosPublic() ;
+ 
 
  import React from 'react';
  
  const useBiodata = () => {
+    const axiosPublic = useAxiosPublic() ;
      const {data: biodatas=[] , isLoading} = useQuery({
         queryKey: ['biodata'] , 
         queryFn: async()=>{

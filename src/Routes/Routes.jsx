@@ -15,6 +15,12 @@ import ContactRequest from "../Pages/Dashboard/UserDashBoard/ContactRequest";
 import Payments from "../Pages/Dashboard/Payments/Payments";
 import ApprovedContactRequest from "../Pages/Dashboard/Admin/ApprovedContactRequest";
 import MyFavorite from "../Pages/Dashboard/UserDashBoard/MyFavorite";
+import PrivateRoute from "./PrivateRoute";
+import CreateYourBioData from "../Pages/Dashboard/UserDashBoard/CreateYourBioData";
+import AboutPage from "../Pages/About/AboutPage";
+import ContactPage from "../Pages/ContactPage/ContactPage";
+import GotMarriedPage from "../Pages/Dashboard/UserDashBoard/GotMarriedPage";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +31,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+
       {
         path: "signup",
         element: <Signup></Signup>,
@@ -39,39 +46,66 @@ export const router = createBrowserRouter([
       },
       {
         path: "biodataDetails/:id",
-        element: <BiodataDetails></BiodataDetails>,
-        loader: () => fetch(`http://localhost:5000/biodata`),
+        element: (
+          <PrivateRoute>
+            <BiodataDetails></BiodataDetails>
+          </PrivateRoute>
+        ),
+        loader: () =>
+          fetch(`http://localhost:5000/biodata`),
       },
       {
         path: "checkout/:id",
-        element: <Payments></Payments>,
-        loader: () => fetch(`http://localhost:5000/biodata`),
+        element: (
+          <PrivateRoute>
+            <Payments></Payments>
+          </PrivateRoute>
+        ),
+        loader: () =>
+          fetch(`http://localhost:5000/biodata`),
+        // loader: () => fetch(`http://localhost:5000/biodata`),
+      },
+      {
+        path: "about",
+        element: <AboutPage></AboutPage>,
+      },
+      {
+        path: "contact",
+        element: <ContactPage></ContactPage>,
       },
     ],
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     children: [
       // Admin Routs
       {
         path: "admin-dashboard",
-        element: <AdminDashboard></AdminDashboard>,
+        element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>,
       },
       {
         path: "manage-users",
-        element: <ManageUsers></ManageUsers>,
+        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>,
       },
       {
         path: "approve-premium",
-        element: <ApprovePremium></ApprovePremium>,
+        element: <AdminRoute><ApprovePremium></ApprovePremium></AdminRoute>,
       },
       {
         path: "approve-contacts",
-        element: <ApprovedContactRequest></ApprovedContactRequest>,
+        element: <AdminRoute><ApprovedContactRequest></ApprovedContactRequest></AdminRoute>,
       },
 
       // user routes
+      {
+        path: "create-biodata",
+        element: <CreateYourBioData></CreateYourBioData>,
+      },
       {
         path: "edit-biodata",
         element: <EditBiodata></EditBiodata>,
@@ -85,9 +119,13 @@ export const router = createBrowserRouter([
         element: <ContactRequest></ContactRequest>,
       },
       {
-        path : 'favorites' , 
-        element: <MyFavorite></MyFavorite>
-      }
+        path: "favorites",
+        element: <MyFavorite></MyFavorite>,
+      },
+      {
+        path: "create-success-story",
+        element: <GotMarriedPage></GotMarriedPage>,
+      },
     ],
   },
 ]);

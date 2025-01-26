@@ -56,11 +56,11 @@ const ViewBioDataDetails = ({ item ,  }) => {
   console.log( 'ispremiumDetasils' , isPremiumMember);
   
  const axiosSecure = useAxiosSecure()
-  const handlePremiumRequest = async(email , BiodataId , Name ) => {
+  const handlePremiumRequest = async(email , BiodataId , Name , Gender , ProfileImage , PermanentDivision , Occupation , Age , infoId ) => {
 
 
-    const premiumInfo = {email , BiodataId , Name ,  status:"pending"} 
-    console.table(premiumInfo);
+    const premiumInfo = {email , BiodataId , Name , Gender , ProfileImage , PermanentDivision , Occupation , Age , infoId , status:"pending"} 
+    // console.log( 'premiumInfo' , premiumInfo);
     // onPremiumRequest(_id);
     const PremiumRequest  = await axiosSecure.post('/premium-request-bioData' , premiumInfo)
     .then(res =>{
@@ -141,11 +141,11 @@ const ViewBioDataDetails = ({ item ,  }) => {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="flex items-center gap-2 text-gray-600">
                     <User className="w-4 h-4" />
-                    <span>Biodata Type: {BiodataType}</span>
+                    <span>Biodata Type: {Gender}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <Calendar className="w-4 h-4" />
-                    <span>Birth Date: {new Date(DateOfBirth).toLocaleDateString()}</span>
+                    <span>Birth Date: {DateOfBirth}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <User className="w-4 h-4" />
@@ -243,7 +243,7 @@ const ViewBioDataDetails = ({ item ,  }) => {
                 Cancel
               </button>
               <button
-                onClick={()=>handlePremiumRequest(ContactEmail , BiodataId , Name)}
+                onClick={()=>handlePremiumRequest(ContactEmail , BiodataId , Name , Gender , ProfileImage , PermanentDivision , Occupation , Age , _id)}
                 className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg hover:from-pink-600 hover:to-rose-600 transition-colors"
               >
                 Yes, Make Premium

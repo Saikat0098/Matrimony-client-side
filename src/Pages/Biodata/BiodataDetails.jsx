@@ -28,6 +28,7 @@ const BiodataDetails = () => {
   const {user} = useAuth()
   const axiosSecure = useAxiosSecure()
   const data = useLoaderData();
+ 
   const { id } = useParams();
   const [isPremium] = usePremiumUser();
   const [PremiumUser, refetch, isLoading] = useDirectPremiumUsers();

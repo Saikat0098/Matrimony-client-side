@@ -3,11 +3,14 @@ import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "./useAuth";
 
-const axiosSecure = useAxiosSecure();
+
 const usePremiumUser = () => {
-  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { user , loading} = useAuth();
   const { data: isPremium = [] , refetch , isLoading} = useQuery({
+   
     queryKey: [user?.email, "isPremium"],
+    
     queryFn: async () => {
       const res = await axiosSecure.get(`/premium-user/${user?.email}`);
       return res.data;

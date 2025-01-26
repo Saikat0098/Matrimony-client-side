@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 
 const CheckoutForm = ({ BioDataInfo }) => {
     const {user} = useAuth()
-    const {BiodataId , ContactEmail , MobileNumber , Name} = BioDataInfo ;
+    const {BiodataId , ContactEmail , MobileNumber , Name ,} = BioDataInfo ;
   
-    const paymentInfo = {ContactEmail , MobileNumber , Name , BiodataId , email: user?.email ,  status : 'pending'} ; 
+    const paymentInfo = {ContactEmail , MobileNumber , Name , BiodataId , email: user?.email , price : 5 , status : 'pending'} ; 
     console.log(paymentInfo);
     const navigate = useNavigate()
      

@@ -13,6 +13,8 @@ import {
   Users,
   Shield,
   MessageCircle,
+  Flower
+   
 } from "lucide-react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
@@ -36,6 +38,7 @@ const Dashboard = () => {
       href: "/dashboard/contact-requests",
     },
     { icon: Heart, label: "Favourites Biodata", href: "/dashboard/favorites" },
+    { icon: Flower, label: "Create Success Story", href: "/dashboard/create-success-story" },
   ];
 
   const adminMenuItems = [
@@ -80,29 +83,29 @@ const Dashboard = () => {
  
   }
 
-  const stats = [
-    {
-      title: "Total Views",
-      value: "2,847",
-      trend: "+12.5%",
-      icon: Users,
-      color: "#9333EA",
-    },
-    {
-      title: "Contact Requests",
-      value: "45",
-      trend: "+3.2%",
-      icon: MessageCircle,
-      color: "#EC4899",
-    },
-    {
-      title: "Matches",
-      value: "128",
-      trend: "+8.1%",
-      icon: Heart,
-      color: "#EF4444",
-    },
-  ];
+ 
+  //   {
+  //     title: "Total Views",
+  //     value: "2,847",
+  //     trend: "+12.5%",
+  //     icon: Users,
+  //     color: "#9333EA",
+  //   },
+  //   {
+  //     title: "Contact Requests",
+  //     value: "45",
+  //     trend: "+3.2%",
+  //     icon: MessageCircle,
+  //     color: "#EC4899",
+  //   },
+  //   {
+  //     title: "Matches",
+  //     value: "128",
+  //     trend: "+8.1%",
+  //     icon: Heart,
+  //     color: "#EF4444",
+  //   },
+  // ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 flex">
@@ -250,27 +253,7 @@ const Dashboard = () => {
             </p>
           </div>
 
-          {/* Stats Grid */}
-
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            {stats.map((stat, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-sm border border-purple-100">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-sm text-gray-500">{stat.title}</p>
-                    <p className="text-2xl font-semibold mt-1">{stat.value}</p>
-                    <p className="text-sm text-green-500 mt-1">{stat.trend}</p>
-                  </div>
-                  <div 
-                    className="p-3 rounded-xl"
-                    style={{ backgroundColor: `${stat.color}20` }}
-                  >
-                    <stat.icon size={24} style={{ color: stat.color }} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div> */}
+       
 
           {/* Content Area */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-sm border border-purple-100 p-6">
