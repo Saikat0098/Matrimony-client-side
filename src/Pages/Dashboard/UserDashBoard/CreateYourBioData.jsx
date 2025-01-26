@@ -13,7 +13,7 @@ import useAuth from '../../../Hooks/useAuth';
 
 const CreateYourBioData = () => {
     const {user} = useAuth() ;
-    console.log("user email " , user.email);
+ 
     const axiosSecure = useAxiosSecure()
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const CreateYourBioData = () => {
     });
   
     const [biodata] = useBiodata() ; 
-    console.log(biodata);
+ 
     
      // user already existingUser or no 
    
@@ -31,13 +31,13 @@ const CreateYourBioData = () => {
          const res = await axiosSecure.get(
            `/view-bioData?ContactEmail=${user?.email}`
          );
-         console.log(res.data);
+ 
          return res.data;
        },
      });
    
      const existingUser = viewBioData.length > 0;
-   console.log(existingUser);
+ 
   
     const divisions = [
       'Dhaka', 'Chattagra', 'Rangpur', 'Barisal', 'Khulna', 'Mymensingh', 'Sylhet'
@@ -86,14 +86,14 @@ const CreateYourBioData = () => {
      const formData = new FormData(e.target);
      const biodataInfo = Object.fromEntries(formData.entries());
       
-    //  const newBiodataInfo = {...biodataInfo , email : 'pending'} ; 
+ 
    
   
       axiosSecure.post('/biodata' , biodataInfo    )
       .then((res) =>{
         toast.success('BioData Published success')
         navigate('/dashboard/view-biodata')
-        console.log(res.data);
+     
       })
   
     };
@@ -254,6 +254,7 @@ const CreateYourBioData = () => {
                 <input
                   type="text"
                   name="MothersName"
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -263,6 +264,8 @@ const CreateYourBioData = () => {
                 <label className="block text-sm font-medium text-gray-700">Permanent Division*</label>
                 <select
                   name="PermanentDivision"
+                  required
+
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
                 >
                   <option value="">Select Division</option>
@@ -278,6 +281,7 @@ const CreateYourBioData = () => {
                 <label className="block text-sm font-medium text-gray-700">Present Division*</label>
                 <select
                   name="PresentDivision"
+                  
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 `}
                 required
                >
@@ -305,6 +309,8 @@ const CreateYourBioData = () => {
                 <label className="block text-sm font-medium text-gray-700">Expected Partner Height*</label>
                 <select
                   name="ExpectedPartnerHeight"
+                  required
+
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
                 >
                   <option value="">Select Height</option>
@@ -319,6 +325,8 @@ const CreateYourBioData = () => {
                 <label className="block text-sm font-medium text-gray-700">Expected Partner Weight*</label>
                 <select
                   name="ExpectedPartnerWeight"
+                  required
+
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500}`}
                 >
                   <option value="">Select Weight</option>
@@ -337,6 +345,7 @@ const CreateYourBioData = () => {
                 type="email"
                 name="ContactEmail"
                 defaultValue={user?.email}
+               readOnly
                 className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
               />
             </div>

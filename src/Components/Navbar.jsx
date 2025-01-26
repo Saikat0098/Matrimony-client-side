@@ -149,6 +149,14 @@ const Navbar = () => {
             <NavLink to="/contact" className="text-gray-700 hover:text-purple-500 transition">
               Contact Us
             </NavLink>
+            {
+              user?.email &&
+               <NavLink to="/dashboard/edit-biodata" className="text-gray-700 flex space-x-2 hover:text-purple-500 transition">
+              <MdDashboardCustomize />
+
+              Dashboard
+            </NavLink>
+            }
             <div className="pt-3">
               {user ? (
                 <button

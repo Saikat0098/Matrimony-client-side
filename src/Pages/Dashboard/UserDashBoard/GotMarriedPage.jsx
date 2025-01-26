@@ -18,14 +18,14 @@ const GotMarriedPage = () => {
     
       successStoryData.platformRating = rating;
     
-    console.log(successStoryData);
+ 
     const data = await axiosPublic.post('/success-story-post', successStoryData); 
   
     if(data.data.insertedId) {
       toast.success('Your success story published');
       navigate('/');
     }
-    console.log(data.data);
+   
   };
 
   const handleRatingChange = (selectedRating) => {

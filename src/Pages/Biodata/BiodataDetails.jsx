@@ -72,7 +72,7 @@ const BiodataDetails = () => {
 
   // Handle favorite
   const handleAddToFavourites = async(name , bioDataId , address , occupation) => {
-    // const myFavoritePerson = {name , bioDataId , address , occupation}
+    
     const myFavoritePerson = {name , bioDataId , address , occupation , email : user?.email}
     
       await axiosSecure.post('/my-favorite' , myFavoritePerson)

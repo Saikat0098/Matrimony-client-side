@@ -53,20 +53,19 @@ const ViewBioDataDetails = ({ item ,  }) => {
   
   const isPremiumMember = PremiumMember?.status ; 
 
-  console.log( 'ispremiumDetasils' , isPremiumMember);
+
   
  const axiosSecure = useAxiosSecure()
   const handlePremiumRequest = async(email , BiodataId , Name , Gender , ProfileImage , PermanentDivision , Occupation , Age , infoId ) => {
 
 
     const premiumInfo = {email , BiodataId , Name , Gender , ProfileImage , PermanentDivision , Occupation , Age , infoId , status:"pending"} 
-    // console.log( 'premiumInfo' , premiumInfo);
-    // onPremiumRequest(_id);
+ 
     const PremiumRequest  = await axiosSecure.post('/premium-request-bioData' , premiumInfo)
     .then(res =>{
-      //  console.log('premium request' , PremiumRequest);
+  
       refetch()
-      console.log(res.data);
+ 
     })
     setShowPremiumModal(false);
   };

@@ -5,10 +5,12 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: users = [], refetch, isLoading } = useQuery({
-    queryKey: ['users'],
+  const [search , setSearch] = useState('')
+   const { data: users = [], refetch, isLoading ,   } = useQuery({
+    
+    queryKey: ['users' , search],
     queryFn: async () => {
-      const data = await axiosSecure.get('/users');
+      const data = await axiosSecure.get(`/users?search=${search}`);
       return data.data;
     },
   });
@@ -16,17 +18,17 @@ const ManageUsers = () => {
   const toggleAdmin = (id) => {
     axiosSecure.patch(`/users/admin/${id}`).then((data) => {
       refetch();
-      console.log(data.data);
+  
     });
   };
 
   const togglePremium = (id) => {
     axiosSecure.patch(`/user/premium/${id}`)
     .then((res) =>{
-      console.log(res.data);
+       
       refetch()
     })
-    console.log('Premium User', id);
+    
   };
 
   return (
@@ -38,6 +40,7 @@ const ManageUsers = () => {
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <input
             type="text"
+            onChange={e => setSearch(e.target.value)}
             placeholder="Search users..."
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

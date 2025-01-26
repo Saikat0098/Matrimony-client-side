@@ -40,7 +40,7 @@ const SuccessStorySection = () => {
         </motion.div>
 
         {/* Sort Control */}
-        <div className="max-w-7xl mx-auto mb-8">
+        <div className="max-w-7xl  mx-auto mb-8">
           <div className="flex justify-end">
             <select
               value={sortOrder}
@@ -53,7 +53,7 @@ const SuccessStorySection = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className=" h-[650px] grid md:grid-cols-2 gap-6">
           {sortedStories.slice(0 - 4).map(({ id, name, successStory, coupleImageUrl, date, platformRating }) => (
             <motion.div
               key={id}

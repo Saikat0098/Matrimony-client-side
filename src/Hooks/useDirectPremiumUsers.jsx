@@ -15,7 +15,7 @@ const useDirectPremiumUsers = () => {
          
         queryFn : async()=>{
             const res = await axiosSecure.get(`/user/premium/${user.email}`) ; 
-            console.log(res.data);
+ 
             return res.data?.PremiumUser
         }
     })

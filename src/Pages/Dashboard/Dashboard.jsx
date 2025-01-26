@@ -237,9 +237,9 @@ const Dashboard = () => {
                       </p>
                       <Link
                         to="/"
-                        className="text-gray-700 text-xs hover:text-purple-500 transition"
+                        className="text-gray-700 text-xs   "
                       >
-                        Home
+                       <button className="p-2 bg-purple-500 mt-4 text-white rounded-lg">Home</button>
                       </Link>
                     </div>
                   </div>

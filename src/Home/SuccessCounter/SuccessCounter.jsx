@@ -16,10 +16,7 @@ const SuccessCounter = () => {
  
   const totalMaleBioData = Male.length ; 
   const totalFemaleBioData = Female.length ; 
-  console.log(totalBioData);
-  console.log('mailBioData' ,totalMaleBioData);  
-  console.log('totalFemaleBioData' ,totalFemaleBioData);  
-
+   
   const [stats, setStats] = useState({
     total: 0,
     boys: 0,

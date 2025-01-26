@@ -25,7 +25,7 @@ const ViewBioData = () => {
       const res = await axiosSecure.get(
         `/view-bioData?ContactEmail=${user?.email}`
       );
-      console.log(res.data);
+ 
       return res.data;
     },
   });

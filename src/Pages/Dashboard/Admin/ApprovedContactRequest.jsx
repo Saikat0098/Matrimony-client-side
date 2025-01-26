@@ -20,8 +20,7 @@ const axiosSecure = useAxiosSecure()
 const handelStatusChange = async(id , status)=>{
     const res = await axiosSecure.patch(`/request-bioData-info-status-update/${id}` , {status}) 
     refetch()
-    console.log(res.data);
-}
+ }
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 md:p-6">

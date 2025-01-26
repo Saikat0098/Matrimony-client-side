@@ -19,7 +19,7 @@ const EditBiodata = () => {
   });
 
   const [biodata] = useBiodata() ; 
-  console.log(biodata);
+ 
   
    // user already existingUser or no 
  
@@ -35,7 +35,7 @@ const EditBiodata = () => {
    });
 
    const id  = viewBioData.map(item => item._id)
- console.log(id);
+ 
   //  console.log( 'viewBioData' , viewBioData.Name);
    const existingUser = viewBioData.length > 0;
  console.log(existingUser);
@@ -375,7 +375,8 @@ const EditBiodata = () => {
                       <input
                         type="email"
                         name="ContactEmail"
-                        readOnly={user?.email}
+                        defaultValue={user?.email}
+                        readOnly
                         className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
                       />
                     </div>

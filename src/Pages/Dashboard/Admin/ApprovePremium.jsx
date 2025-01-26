@@ -17,7 +17,7 @@ const ApprovedPremium = () => {
       console.log(email , prefStatus , status);
       axiosSecure.patch(`/premium-bioData-update/${email}` , {status})
       .then(res =>{
-        console.log(res.data.data);
+ 
         refetch()
       })
   };

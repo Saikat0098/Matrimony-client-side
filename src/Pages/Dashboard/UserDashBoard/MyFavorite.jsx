@@ -15,12 +15,12 @@ const axiosSecure = useAxiosSecure()
     queryKey : [ user?.email , 'favoritePerson'] , 
     queryFn: async() =>{
       const res = await axiosSecure.get(`/my-favorite-person/${user?.email}`) ; 
-      console.log(res.data);
+       
       return res.data
     }
   })
 console.log('favoritePerson' , favoritePerson);
-  // Filter favorites based on search term
+ 
   const filteredFavorites = favoritePerson.filter(favorite =>
     favorite.name.toLowerCase().includes(search.toLowerCase())
   );

@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () =>
-          fetch(`http://localhost:5000/biodata`),
+          fetch(`https://assignment-12-server-side-gold.vercel.app/biodata`),
       },
       {
         path: "checkout/:id",
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () =>
-          fetch(`http://localhost:5000/biodata`),
+          fetch(`https://assignment-12-server-side-gold.vercel.app/biodata`),
         // loader: () => fetch(`http://localhost:5000/biodata`),
       },
       {
