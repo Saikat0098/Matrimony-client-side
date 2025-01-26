@@ -13,7 +13,8 @@ import {
   Users,
   Shield,
   MessageCircle,
-  Flower
+  Flower ,
+  Star
    
 } from "lucide-react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -59,6 +60,11 @@ const Dashboard = () => {
       label: "Approve Contact Requests",
       href: "/dashboard/approve-contacts",
     },
+    {
+      icon: Star,
+      label: "Success Stories",
+      href: "/dashboard/success-stories",
+      },
   ];
 
 

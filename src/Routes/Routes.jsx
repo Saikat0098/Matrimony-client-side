@@ -21,6 +21,7 @@ import AboutPage from "../Pages/About/AboutPage";
 import ContactPage from "../Pages/ContactPage/ContactPage";
 import GotMarriedPage from "../Pages/Dashboard/UserDashBoard/GotMarriedPage";
 import AdminRoute from "./AdminRoute";
+import AdminSuccessStoryView from "../Pages/Dashboard/Admin/AdminSuccessStoryView";
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +101,10 @@ export const router = createBrowserRouter([
         path: "approve-contacts",
         element: <AdminRoute><ApprovedContactRequest></ApprovedContactRequest></AdminRoute>,
       },
+      {
+        path : 'success-stories' , 
+        element : <AdminRoute><AdminSuccessStoryView></AdminSuccessStoryView></AdminRoute>
+      } ,
 
       // user routes
       {
