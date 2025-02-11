@@ -29,7 +29,7 @@ const EditBiodata = () => {
        const res = await axiosSecure.get(
          `/view-bioData?ContactEmail=${user?.email}`
        );
-       console.log(res.data);
+ 
        return res.data;
      },
    });
@@ -38,7 +38,7 @@ const EditBiodata = () => {
  
   //  console.log( 'viewBioData' , viewBioData.Name);
    const existingUser = viewBioData.length > 0;
- console.log(existingUser);
+ 
 
   const divisions = [
     'Dhaka', 'Chattagra', 'Rangpur', 'Barisal', 'Khulna', 'Mymensingh', 'Sylhet'
@@ -86,7 +86,7 @@ const EditBiodata = () => {
    e.preventDefault()
    const formData = new FormData(e.target);
    const biodataInfo = Object.fromEntries(formData.entries());
-    console.log(biodataInfo);
+ 
    const newBiodataInfo = {...biodataInfo , email : 'pending'} ; 
  
 
@@ -94,7 +94,7 @@ const EditBiodata = () => {
     .then((res) =>{
       toast.success('BioData Edit success')
       navigate('/dashboard/view-biodata')
-      console.log(res.data);
+    
     })
 
   };

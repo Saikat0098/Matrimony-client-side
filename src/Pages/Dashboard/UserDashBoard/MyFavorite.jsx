@@ -19,7 +19,7 @@ const axiosSecure = useAxiosSecure()
       return res.data
     }
   })
-console.log('favoritePerson' , favoritePerson);
+ 
  
   const filteredFavorites = favoritePerson.filter(favorite =>
     favorite.name.toLowerCase().includes(search.toLowerCase())

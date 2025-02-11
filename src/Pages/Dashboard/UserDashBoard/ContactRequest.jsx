@@ -16,7 +16,7 @@ const ContactRequest = () => {
     queryKey : [ user?.email , 'contactRequest'] , 
     queryFn : async()=>{
         const res = await axiosSecure.get(`/request-bioData-info/${user?.email}`)
-        console.log('myContactRequest' , res.data);
+       
         return res.data
     }
   })
